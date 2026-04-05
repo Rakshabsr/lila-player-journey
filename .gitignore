@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+
+# Raw game data - too large for GitHub, processed into data/events.json
+player_data/
+
+# Environment files
+.env
+.env.local
