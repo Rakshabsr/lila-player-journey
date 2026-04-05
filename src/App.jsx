@@ -40,11 +40,17 @@ export default function App() {
     }
   }, [filters.date, filters.map, availableMatches.length])
 
-  // Events for the selected match
+  // Events for the selected match (paths, markers, timeline)
   const matchEvents = useMemo(() => {
     if (!filters.match) return []
     return events.filter(e => e.map === filters.map && e.mid === filters.match)
   }, [events, filters.map, filters.match])
+
+  // All events for the selected map + date (used for heatmap — day-level aggregate)
+  const dayEvents = useMemo(() => {
+    if (!filters.date) return []
+    return events.filter(e => e.map === filters.map && e.date === filters.date)
+  }, [events, filters.map, filters.date])
 
   // Timeline range
   const maxTs = useMemo(() => {
@@ -101,6 +107,7 @@ export default function App() {
           <div className="map-col">
             <MapCanvas
               events={matchEvents}
+              dayEvents={dayEvents}
               filters={filters}
               currentTs={currentTs}
               maxTs={maxTs}

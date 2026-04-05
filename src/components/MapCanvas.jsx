@@ -47,7 +47,7 @@ const EVENT_RENDERERS = {
 }
 
 // ── Component ─────────────────────────────────────────────────────────────
-export function MapCanvas({ events, filters, currentTs, maxTs }) {
+export function MapCanvas({ events, dayEvents = [], filters, currentTs, maxTs }) {
   const canvasRef = useRef(null)
   const imgCache  = useRef({})
 
@@ -66,11 +66,12 @@ export function MapCanvas({ events, filters, currentTs, maxTs }) {
     return { paths: playerPos, markers }
   }, [events])
 
-  // Heatmap points based on selected mode (computed from ALL match events)
+  // Heatmap points use FULL DAY events (not just selected match) for richer aggregate view
   const heatPoints = useMemo(() => {
     if (!filters.heatmap) return []
-    const mode = filters.heatmap
-    return events
+    const mode   = filters.heatmap
+    const source = dayEvents.length > 0 ? dayEvents : events
+    return source
       .filter(e => {
         if (mode === 'traffic') return e.evt === 'Position' || e.evt === 'BotPosition'
         if (mode === 'kills')   return e.evt === 'Kill' || e.evt === 'BotKill'
@@ -78,7 +79,7 @@ export function MapCanvas({ events, filters, currentTs, maxTs }) {
         return false
       })
       .map(e => [e.px, e.py])
-  }, [events, filters.heatmap])
+  }, [dayEvents, events, filters.heatmap])
 
   useEffect(() => {
     const canvas = canvasRef.current
