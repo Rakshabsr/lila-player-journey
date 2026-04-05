@@ -79,6 +79,7 @@ export function Sidebar({ filters, setFilters, dates, matches, stats }) {
             {stats.humans} players · {stats.bots} bots · {stats.events} events
           </p>
         )}
+        <p className="match-context">Dataset pattern: 1 human · 12–15 bots per match</p>
       </section>
 
       <section className="sidebar-section">

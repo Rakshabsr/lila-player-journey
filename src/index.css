@@ -111,6 +111,12 @@ body {
   color: #8b949e;
   margin-top: 7px;
 }
+.match-context {
+  font-size: 10px;
+  color: #58a6ff;
+  margin-top: 4px;
+  opacity: 0.7;
+}
 
 /* Toggles */
 .toggle-row {
