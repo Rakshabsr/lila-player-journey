@@ -82,6 +82,37 @@ export function Sidebar({ filters, setFilters, dates, matches, stats }) {
       </section>
 
       <section className="sidebar-section">
+        <h3 className="section-title">Heatmap</h3>
+        <div className="heatmap-buttons">
+          {[
+            { mode: null,      label: 'Off',     color: '#8b949e' },
+            { mode: 'traffic', label: 'Traffic', color: '#3fb950' },
+            { mode: 'kills',   label: 'Kills',   color: '#f85149' },
+            { mode: 'deaths',  label: 'Deaths',  color: '#bc8cff' },
+          ].map(({ mode, label, color }) => (
+            <button
+              key={label}
+              className={`heatmap-btn ${filters.heatmap === mode ? 'active' : ''}`}
+              style={filters.heatmap === mode ? { borderColor: color, color } : {}}
+              onClick={() => set('heatmap', mode)}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {filters.heatmap && (
+          <label className="toggle-row" style={{ marginTop: 8 }}>
+            <input
+              type="checkbox"
+              checked={!!filters.pathsOnHeatmap}
+              onChange={() => set('pathsOnHeatmap', !filters.pathsOnHeatmap)}
+            />
+            <span style={{ fontSize: 12, color: '#8b949e' }}>Show paths over heatmap</span>
+          </label>
+        )}
+      </section>
+
+      <section className="sidebar-section">
         <h3 className="section-title">Show / Hide</h3>
         {eventToggles.map(({ label, key, color }) => (
           <label key={key} className="toggle-row">
